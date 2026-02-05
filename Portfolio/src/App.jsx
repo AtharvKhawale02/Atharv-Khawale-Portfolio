@@ -16,14 +16,15 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 1000);
   }, []);
 
   return (
-    <>
-      <AnimatePresence>
+    <div className="min-h-screen bg-darker">
+      <AnimatePresence mode="wait">
         {loading && (
           <motion.div
+            key="loader"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
@@ -62,7 +63,12 @@ function App() {
       </AnimatePresence>
 
       {!loading && (
-        <div className="relative">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative"
+        >
           <Particles />
           <ScrollProgress />
           <Navbar />
@@ -76,9 +82,9 @@ function App() {
             <Contact />
           </main>
           <Footer />
-        </div>
+        </motion.div>
       )}
-    </>
+    </div>
   );
 }
 
