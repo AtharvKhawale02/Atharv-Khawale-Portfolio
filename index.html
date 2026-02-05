@@ -8,30 +8,136 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .skill-bar {
-            transition: width 1.5s ease-in-out;
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --bg-main: #f9fafb;
+            --text-main: #22223b;
+            --card-bg: #fff;
+            --card-shadow: 0 4px 24px 0 rgba(79,70,229,0.08);
         }
-        .dark-mode-transition {
-            transition: background-color 0.3s ease, color 0.3s ease;
+        .dark {
+            --primary-color: #a78bfa;
+            --secondary-color: #38bdf8;
+            --accent-color: #f472b6;
+            --bg-main: #181825;
+            --text-main: #f3f4f6;
+            --card-bg: #232946;
+            --card-shadow: 0 4px 24px 0 rgba(56,189,248,0.10);
         }
+
+        body {
+            background: var(--bg-main);
+            color: var(--text-main);
+        }
+
         .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .project-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        .project-card,
+        .skill-card,
+        .glass,
+        .bg-white,
+        .bg-gray-100,
+        .bg-gray-800,
+        .bg-gray-700 {
+            background: var(--card-bg) !important;
+            box-shadow: var(--card-shadow) !important;
+            color: var(--text-main) !important;
         }
-        .project-card:hover {
-            transform: translateY(-5px);
+
+        .dark .project-card,
+        .dark .skill-card,
+        .dark .glass,
+        .dark .bg-white,
+        .dark .bg-gray-100,
+        .dark .bg-gray-800,
+        .dark .bg-gray-700 {
+            background: var(--card-bg) !important;
+            box-shadow: var(--card-shadow) !important;
+            color: var(--text-main) !important;
         }
-        .achievement-card {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+
+        .animated-bg {
+            background: linear-gradient(-45deg, var(--primary-color), var(--accent-color), var(--secondary-color), #f472b6);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        /* Animated Button */
+        .animated-btn {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: transform 0.2s;
+        }
+        .animated-btn::before {
+            content: "";
+            position: absolute;
+            left: -75%;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, #06b6d4, #7c3aed);
+            transform: skewX(-20deg);
+            transition: left 0.4s;
+            z-index: -1;
+        }
+        .animated-btn:hover::before {
+            left: 110%;
+        }
+        .animated-btn:hover {
+            transform: scale(1.05) rotate(-1deg);
+        }
+
+        /* Animated SVG Blob */
+        .blob {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+        .blob1 {
+            top: -60px; left: -60px; width: 220px; height: 220px;
+            animation: blobMove1 12s infinite alternate ease-in-out;
+        }
+        .blob2 {
+            bottom: -60px; right: -60px; width: 180px; height: 180px;
+            animation: blobMove2 10s infinite alternate-reverse ease-in-out;
+        }
+        @keyframes blobMove1 {
+            0% { transform: scale(1) translateY(0);}
+            100% { transform: scale(1.1) translateY(40px);}
+        }
+        @keyframes blobMove2 {
+            0% { transform: scale(1) translateX(0);}
+            100% { transform: scale(1.2) translateX(-30px);}
+        }
+        /* Toggle icon animation */
+        .theme-icon {
+            transition: transform 0.4s cubic-bezier(.4,2,.6,1);
+        }
+        .theme-icon.spin {
+            transform: rotate(180deg) scale(1.2);
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 dark-mode-transition font-sans">
+    <!-- Animated SVG Blobs -->
+    <svg class="blob blob1" viewBox="0 0 200 200"><path fill="#7c3aed" d="M44.8,-70.2C57.7,-62.6,67.7,-48.2,73.2,-32.7C78.7,-17.2,79.7,-0.7,75.2,13.7C70.7,28.1,60.7,40.3,48.2,47.7C35.7,55.1,20.7,57.7,5.7,55.8C-9.3,53.9,-18.7,47.5,-32.2,43.2C-45.7,38.9,-63.3,36.7,-70.2,27.7C-77.1,18.7,-73.3,2.9,-67.2,-10.7C-61.1,-24.3,-52.7,-35.7,-42.2,-43.7C-31.7,-51.7,-15.9,-56.3,0.7,-57.2C17.2,-58.1,34.4,-55.2,44.8,-70.2Z" transform="translate(100 100)" /></svg>
+    <svg class="blob blob2" viewBox="0 0 200 200"><path fill="#06b6d4" d="M41.7,-67.2C54.8,-59.6,65.8,-48.2,72.2,-34.6C78.6,-21,80.4,-5.2,77.2,9.7C74,24.6,65.8,38.6,54.2,48.6C42.6,58.6,27.6,64.6,12.7,65.2C-2.2,65.8,-17,61,-30.7,53.2C-44.4,45.4,-57,34.6,-65.2,20.7C-73.4,6.8,-77.2,-10.2,-70.2,-22.6C-63.2,-35,-45.4,-42.8,-30.2,-50.2C-15,-57.6,-2.5,-64.6,10.7,-68.2C23.9,-71.8,47.8,-74.8,41.7,-67.2Z" transform="translate(100 100)" /></svg>
+    <!-- Dynamic Neural Network Animation -->
+    <canvas id="nn-canvas" class="fixed top-0 left-0 w-full h-[500px] pointer-events-none z-0" style="height:500px;"></canvas>
     <!-- Header/Navigation -->
     <header class="fixed w-full bg-white dark:bg-gray-800 shadow-md z-50 dark-mode-transition">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -47,9 +153,9 @@
                     <a href="#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
                 </nav>
                 
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block"></i>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon theme-icon" id="moon-icon"></i>
+                    <i class="fas fa-sun theme-icon hidden" id="sun-icon"></i>
                 </button>
                 
                 <button id="mobile-menu-button" class="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
@@ -72,33 +178,44 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-20 px-6 bg-gradient-to-r from-blue-800 to-blue-600 dark:from-blue-900 dark:to-blue-700 text-white">
-        <div class="container mx-auto flex flex-col md:flex-row items-center">
+    <section class="animated-bg pt-32 pb-20 px-6 bg-gradient-to-r from-blue-800 to-blue-600 dark:from-blue-900 dark:to-blue-700 text-white relative overflow-hidden">
+        <div class="container mx-auto flex flex-col md:flex-row items-center relative z-10">
             <div class="md:w-1/2 mb-10 md:mb-0">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Atharv Khawale</h1>
-                <h2 class="text-2xl md:text-3xl font-semibold mb-6">Data Science & Software Engineer</h2>
-                <p class="text-lg mb-8 max-w-lg">Transforming data into actionable insights and building intelligent solutions to real-world problems.</p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Atharv Khawale</h1>
+                <h2 class="text-2xl md:text-3xl font-semibold mb-6 fade-in">Data Science & Software Engineer</h2>
+                <p class="text-lg mb-8 max-w-lg fade-in">Transforming data into actionable insights and building intelligent solutions to real-world problems.</p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="#projects" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition shadow-lg hover:shadow-xl">View My Work</a>
-                    <a href="#contact" class="border-2 border-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition shadow-lg hover:shadow-xl">Contact Me</a>
+                    <a href="#projects" class="animated-btn bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition shadow-lg hover:shadow-xl fade-in">View My Work</a>
+                    <a href="#contact" class="animated-btn border-2 border-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition shadow-lg hover:shadow-xl fade-in">Contact Me</a>
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <div class="w-64 h-64 md:w-80 md:h-80 bg-blue-400 rounded-full overflow-hidden shadow-xl border-4 border-white dark:border-gray-800">
-                    <!-- Placeholder for profile image -->
+                <div class="float w-64 h-64 md:w-80 md:h-80 bg-blue-400 rounded-full overflow-hidden shadow-xl border-4 border-white dark:border-gray-800 relative z-10">
                     <div class="w-full h-full bg-gray-300 flex items-center justify-center">
+<<<<<<< Updated upstream
     <img 
         src="https://raw.githubusercontent.com/AtharvKhawale02/Atharv-Khawale-Portfolio/main/Media/ak%20bg.jpg" 
         alt="Atharv Khawale" 
         class="w-full h-full object-cover"
     >
 </div>
+=======
+                        <img 
+                            src="https://raw.githubusercontent.com/AtharvKhawale02/Atharv-Khawale-Portfolio/main/Media/Atharv%20Khawale.jpg" 
+                            alt="Atharv Khawale" 
+                            class="w-full h-full object-cover"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+>>>>>>> Stashed changes
     </section>
 
     <!-- About Section -->
     <section id="about" class="py-20 px-6 bg-white dark:bg-gray-800">
         <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">About Me</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text fade-in">About Me</h2>
             
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
@@ -145,7 +262,7 @@
     <!-- Featured Projects Section -->
     <section id="projects" class="py-20 px-6 bg-gray-100 dark:bg-gray-900">
         <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">Featured Projects</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text fade-in">Featured Projects</h2>
             
             <!-- Project Filter -->
             <div class="flex justify-center mb-12">
@@ -168,7 +285,7 @@
             <!-- Projects Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-container">
                 <!-- Student Performance Prediction System -->
-                <div class="project-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition" data-categories="ml,data">
+                <div class="project-card scale-in bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition" data-categories="ml,data">
                     <div class="h-48 bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center">
                         <i class="fas fa-graduation-cap text-white text-6xl"></i>
                     </div>
@@ -189,7 +306,7 @@
                 </div>
                 
                 <!-- AgriPredictAI -->
-                <div class="project-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition" data-categories="ml,data">
+                <div class="project-card scale-in bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition" data-categories="ml,data">
                     <div class="h-48 bg-gradient-to-r from-green-600 to-green-400 flex items-center justify-center">
                         <i class="fas fa-seedling text-white text-6xl"></i>
                     </div>
@@ -299,7 +416,7 @@
     <!-- Technical Skills Section -->
     <section id="skills" class="py-20 px-6 bg-gray-100 dark:bg-gray-900">
         <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">Technical Skills</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text fade-in">Technical Skills</h2>
             
             <!-- Skill Filter -->
             <div class="flex justify-center mb-12">
@@ -325,7 +442,7 @@
             <!-- Skills Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 skill-container">
                 <!-- Languages -->
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fab fa-python text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -337,7 +454,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fab fa-java text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -349,7 +466,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-database text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -361,7 +478,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="languages">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fab fa-js text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -374,7 +491,7 @@
                 </div>
                 
                 <!-- Frameworks -->
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-code text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -386,7 +503,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-brain text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -398,7 +515,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-chart-line text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -410,7 +527,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="frameworks">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-calculator text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -423,7 +540,7 @@
                 </div>
                 
                 <!-- Databases -->
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="databases">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="databases">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-database text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -435,7 +552,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="databases">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="databases">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-database text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -447,7 +564,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="databases">
+                <div class="skill-card slide-in-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="databases">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-database text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -460,7 +577,7 @@
                 </div>
                 
                 <!-- Tools -->
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fab fa-git-alt text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -472,7 +589,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-laptop-code text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -484,7 +601,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-chart-pie text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -496,7 +613,7 @@
                     </div>
                 </div>
                 
-                <div class="skill-card p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
+                <div class="skill-card slide-in-right p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition" data-category="tools">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
                             <i class="fas fa-table text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -621,9 +738,8 @@
     <!-- Contact Section -->
     <section id="contact" class="py-20 px-6 bg-white dark:bg-gray-800">
         <div class="container mx-auto max-w-4xl">
-            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">Get In Touch</h2>
-            
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-lg overflow-hidden">
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text fade-in">Get In Touch</h2>
+            <div class="glass bg-gray-100 dark:bg-gray-700 rounded-lg shadow-lg overflow-hidden">
                 <div class="md:flex">
                     <div class="md:w-1/2 bg-blue-600 dark:bg-blue-700 text-white p-8">
                         <h3 class="text-xl font-bold mb-4">Contact Information</h3>
@@ -842,19 +958,143 @@
             menu.classList.toggle('hidden');
         });
 
-        // Dark mode toggle
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
-        });
+        // Neural Network Animation
+        (function neuralNetworkAnimation() {
+            const canvas = document.getElementById('nn-canvas');
+            if (!canvas) return;
+            let dpr = window.devicePixelRatio || 1;
+            let width = window.innerWidth;
+            let height = 500;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.documentElement.classList.add('dark');
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('darkMode', 'true');
+            // Neural net structure
+            const layers = [6, 10, 8, 4];
+            const nodes = [];
+            const nodeRadius = 10;
+            const layerGap = width / (layers.length + 1);
+            const verticalPadding = 60;
+
+            // Generate node positions
+            for (let l = 0; l < layers.length; l++) {
+                const layerNodes = [];
+                const yGap = (height - 2 * verticalPadding) / (layers[l] - 1);
+                for (let n = 0; n < layers[l]; n++) {
+                    layerNodes.push({
+                        x: layerGap * (l + 1),
+                        y: verticalPadding + yGap * n,
+                        pulse: Math.random() * Math.PI * 2
+                    });
+                }
+                nodes.push(layerNodes);
+            }
+
+            // Generate connections
+            const connections = [];
+            for (let l = 0; l < layers.length - 1; l++) {
+                for (let i = 0; i < nodes[l].length; i++) {
+                    for (let j = 0; j < nodes[l + 1].length; j++) {
+                        connections.push({
+                            from: nodes[l][i],
+                            to: nodes[l + 1][j],
+                            phase: Math.random() * Math.PI * 2
+                        });
+                    }
+                }
+            }
+
+            function draw(time) {
+                ctx.clearRect(0, 0, width, height);
+                // Connections
+                for (const c of connections) {
+                    const pulse = 0.5 + 0.5 * Math.sin(time / 600 + c.phase);
+                    ctx.strokeStyle = getComputedStyle(document.documentElement).classList.contains('dark')
+                        ? `rgba(139,92,246,${0.15 + 0.25 * pulse})`
+                        : `rgba(79,70,229,${0.12 + 0.22 * pulse})`;
+                    ctx.lineWidth = 2 + 2 * pulse;
+                    ctx.beginPath();
+                    ctx.moveTo(c.from.x, c.from.y);
+                    ctx.lineTo(c.to.x, c.to.y);
+                    ctx.stroke();
+                }
+                // Nodes
+                for (const layer of nodes) {
+                    for (const node of layer) {
+                        const pulse = 0.7 + 0.3 * Math.sin(time / 500 + node.pulse);
+                        ctx.beginPath();
+                        ctx.arc(node.x, node.y, nodeRadius * pulse, 0, 2 * Math.PI);
+                        ctx.fillStyle = getComputedStyle(document.documentElement).classList.contains('dark')
+                            ? "#7c3aed"
+                            : "#4f46e5";
+                        ctx.globalAlpha = 0.7;
+                        ctx.shadowColor = "#06b6d4";
+                        ctx.shadowBlur = 10 * pulse;
+                        ctx.fill();
+                        ctx.globalAlpha = 1;
+                        ctx.shadowBlur = 0;
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            requestAnimationFrame(draw);
+
+            // Responsive
+            window.addEventListener('resize', () => {
+                width = window.innerWidth;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            });
+        })();
+
+        // Improved dark mode toggle: moon always enables dark, sun always enables light
+        const themeToggle = document.getElementById('theme-toggle');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        function setDarkMode(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+                sunIcon.classList.add('spin');
+                setTimeout(() => sunIcon.classList.remove('spin'), 400);
+            } else {
+                document.documentElement.classList.remove('dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                moonIcon.classList.add('spin');
+                setTimeout(() => moonIcon.classList.remove('spin'), 400);
+            }
+            localStorage.setItem('darkMode', isDark);
         }
+        moonIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            setDarkMode(true);
+        });
+        sunIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            setDarkMode(false);
+        });
+        // Also allow clicking the button to toggle as fallback
+        themeToggle.addEventListener('click', function(e) {
+            if (e.target === moonIcon) return; // already handled
+            if (e.target === sunIcon) return;  // already handled
+            setDarkMode(!document.documentElement.classList.contains('dark'));
+        });
+        // On load, sync with localStorage or system
+        (function() {
+            let darkPref = localStorage.getItem('darkMode');
+            if (darkPref === null) {
+                darkPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'true' : 'false';
+            }
+            setDarkMode(darkPref === 'true');
+        })();
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1052,6 +1292,25 @@
             } else {
                 alert('Please fill out all fields before submitting.');
             }
+        });
+
+        // Intersection Observer for animations
+        function handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }
+
+        const observer = new IntersectionObserver(handleIntersection, {
+            threshold: 0.1
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in, .scale-in, .slide-in-left, .slide-in-right').forEach(el => {
+                observer.observe(el);
+            });
         });
     </script>
 </body>
