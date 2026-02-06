@@ -152,7 +152,7 @@ export default function Hero() {
               {/* Profile image with gradient */}
               <div className="absolute inset-8 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm flex items-center justify-center overflow-hidden border-4 border-primary/30 group">
                 <img 
-                  src="https://raw.githubusercontent.com/AtharvKhawale02/Atharv-Khawale-Portfolio/main/Media/ak%20bg.jpg" 
+                  src="/ak bg.jpg" 
                   alt="Atharv Khawale" 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
